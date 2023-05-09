@@ -59,6 +59,8 @@ public class EnemySpawner : MonoBehaviour
     public float burstInterval = 5.0f;
     public int burstIncreaseInterval = 3;
 
+    private float enemyColliderRadius = 0.5f;
+
     private State spawnerState = State.IDLE;
 
     private IEnumerator SpawnFirstWave()
@@ -176,6 +178,12 @@ public class EnemySpawner : MonoBehaviour
                 && enemyPosition.x < rightBound.transform.position.x
                 && enemyPosition.y > bottomBound.transform.position.y
                 && enemyPosition.y < topBound.transform.position.y);
+
+            //check if the prefab would collide with something
+            if (positionIsValid)    
+                positionIsValid = Physics.Raycast(enemyPosition, Vector3.forward, enemyColliderRadius);
+
+
         } while (!positionIsValid);
 
         StartCoroutine(SpawnWithMarker(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], enemyPosition));
