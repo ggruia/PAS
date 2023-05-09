@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
     public float burstInterval = 5.0f;
     public int burstIncreaseInterval = 3;
 
-    private float enemyColliderRadius = 0.5f;
+    private float enemyColliderRadius = 2f;
 
     private State spawnerState = State.IDLE;
 
@@ -180,8 +180,8 @@ public class EnemySpawner : MonoBehaviour
                 && enemyPosition.y < topBound.transform.position.y);
 
             //check if the prefab would collide with something
-            if (positionIsValid)    
-                positionIsValid = Physics.Raycast(enemyPosition, Vector3.forward, enemyColliderRadius);
+            if (positionIsValid)
+                positionIsValid = !Physics2D.OverlapCircle(enemyPosition, enemyColliderRadius, LayerMask.GetMask("Obstacles"));
 
 
         } while (!positionIsValid);
